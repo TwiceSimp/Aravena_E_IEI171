@@ -8,7 +8,7 @@ class Socios(models.Model):
     nombre = models.CharField(max_length=90)
     fechaIncorporacion = models.DateField()
     añoNacimiento = models.DateField()
-    telefono = models.CharField(max_length=13)
+    telefono = models.IntegerField()
     correo = models.EmailField()
     sexo = models.CharField(max_length=20)
     estado = models.CharField(max_length=20)

@@ -20,10 +20,10 @@ class FormSocios(forms.ModelForm):
 
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
-            'fechaIncorporacion': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'añoNacimiento': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'telefono': forms.TextInput(attrs={'class': 'form-control'}),
-            'correo': forms.EmailInput(attrs={'class': 'form-control'}),
+            'fechaIncorporacion': forms.DateInput(attrs={'type': 'date'}),
+            'añoNacimiento': forms.DateInput(attrs={'type': 'date'}),
+            'telefono': forms.TextInput,
+            'correo': forms.EmailInput,
             'sexo': forms.Select(choices=SEXO_CHOICES ),
             'estado': forms.Select(choices=ESTADO_CHOICES ),
             'observacion': forms.Textarea(attrs={'class': 'form-control'}),
@@ -42,4 +42,11 @@ class FormSocios(forms.ModelForm):
         if inputEmail and '@' not in inputEmail:
             raise forms.ValidationError("El correo debe tener un @")
         return cleaned_data
+    
+    def clean_telefono(self):
+        telefono = self.cleaned_data.get('telefono')
+        telefono = ''.join(e for e in str(telefono) if e.isalnum())
+        if len(telefono) !=9 or not telefono.isdigit():
+            raise forms.ValidationError("El numero debe contener 9 digitos")
+        return telefono
     
